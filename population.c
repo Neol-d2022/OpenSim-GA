@@ -95,10 +95,15 @@ static void _traveserSum(void *ptr, void *param)
     *d += a->score;
 }
 
-double population_avgScore(population_t *population)
+double population_sumScore(population_t *population)
 {
     double sum = 0.0;
 
     AVL_Traverse(population->s_chroms, &sum, _traveserSum);
-    return sum / AVL_Count(population->s_chroms);
+    return sum;
+}
+
+double population_avgScore(population_t *population)
+{
+    return population_sumScore(population) / AVL_Count(population->s_chroms);
 }
