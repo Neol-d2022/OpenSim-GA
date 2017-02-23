@@ -12,9 +12,10 @@ int main(int argc, char **argv)
     WirelessNodes_t wnodes;
     WirelessNode_t nodeNew;
     Conns_t conns;
-    population_t pop;
+    population_t pop, child;
+    double thres = 0.918621;
     unsigned int maxRetransmitTimes = 4; //首次嘗試 + 重傳3次
-    unsigned int popSize = 100;
+    unsigned int popSize = 1000;
 
     if (argc != 3)
     {
@@ -66,9 +67,22 @@ int main(int argc, char **argv)
     srand(time(0) + clock());
     population_init(&pop, popSize);
     population_firstGen(&pop, &wnodes, &conns, maxRetransmitTimes);
+    printf("avg = %lf, max = %lf\n", population_avgScore(&pop), population_maxScore(&pop));
+    while (population_maxScore(&pop) < thres)
+    {
+        population_init(&child, popSize);
+        population_nextGen(&pop, &child, &wnodes, &conns, maxRetransmitTimes);
+        //if (population_maxScore(&pop) < population_maxScore(&child))
+        //{
+            population_destroy(&pop);
+            memcpy(&pop, &child, sizeof(pop));
+        //}
+        //else
+        //    population_destroy(&child);
+        printf("avg = %lf, max = %lf\n", population_avgScore(&pop), population_maxScore(&pop));
+    }
 
-    printf("%lf\n", population_avgScore(&pop));
-
+    population_destroy(&pop);
     conn_destroy(&conns);
     wnode_init(&wnodes);
     return 0;

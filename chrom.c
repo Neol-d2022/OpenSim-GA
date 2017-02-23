@@ -82,3 +82,15 @@ double fitness_score(Chromo_t *c, Conns_t *conns, WirelessNodes_t *wnodes, unsig
 
     return s / n;
 }
+
+void printChrom(Chromo_t *a)
+{
+    unsigned int j;
+
+    printf("Chrom> ");
+    for (j = 0; j < a->length; j += 1)
+    {
+        printf("%u ", (a->p)[j]);
+    }
+    printf("\n");
+}

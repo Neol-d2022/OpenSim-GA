@@ -18,9 +18,13 @@ typedef struct
 void population_init(population_t *population, unsigned int size);
 void population_destroy(population_t *population);
 
-void population_addChrom(population_t *population, scored_chrom_t *sch);
+int population_addChrom(population_t *population, scored_chrom_t *sch);
 void population_firstGen(population_t *population, WirelessNodes_t *wnodes, Conns_t *conns, unsigned int maxRetransmitTimes);
+void population_nextGen(population_t *p, population_t *childGen, WirelessNodes_t *wnodes, Conns_t *conns, unsigned int maxRetransmitTimes);
 double population_sumScore(population_t *population);
 double population_avgScore(population_t *population);
+double population_maxScore(population_t *population);
+
+scored_chrom_t *population_rouletteSelect(population_t *population, double p);
 
 #endif
