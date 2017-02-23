@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "chrom.h"
+#include "population.h"
 
 int main(int argc, char **argv)
 {
@@ -11,10 +11,10 @@ int main(int argc, char **argv)
     FILE *nodeFile;
     WirelessNodes_t wnodes;
     WirelessNode_t nodeNew;
-    Chromo_t ch;
     Conns_t conns;
+    population_t pop;
     unsigned int maxRetransmitTimes = 4; //首次嘗試 + 重傳3次
-    unsigned int i, j, k, n;
+    unsigned int popSize = 100;
 
     if (argc != 3)
     {
@@ -64,27 +64,10 @@ int main(int argc, char **argv)
     fclose(nodeFile);
 
     srand(time(0) + clock());
-    n = wnode_getNodesCount(&wnodes);
-    chrom_init(&ch, n);
-    do
-    {
-        for (i = 0; i < n; i += 1)
-        {
-            j = (unsigned int)(rand() % n);
-            k = 0;
-            while (conn_getPdr(&conns, i, j) == 0.0 || i == j)
-            {
-                j = (j + 1) % n;
-                k += 1;
-                if (k >= n)
-                {
-                    fprintf(stderr, "[ERROR] abandoned node.\n");
-                    return 7;
-                }
-            }
-            (ch.p)[i] = j;
-        }
-    } while (fitness_score(&ch, &conns, &wnodes, maxRetransmitTimes) <= 0);
+    population_init(&pop, popSize);
+    population_firstGen(&pop, &wnodes, &conns, maxRetransmitTimes);
+
+    printf("%lf\n", population_avgScore(&pop));
 
     conn_destroy(&conns);
     wnode_init(&wnodes);

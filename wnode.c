@@ -84,8 +84,8 @@ WirelessNode_t *wnode_findByNid(unsigned int nid, WirelessNodes_t *wnodes)
 
 unsigned int wnode_getNodesCount(WirelessNodes_t *wnodes)
 {
-    //return AVL_Count((wnodes->trees)[0]);
-    return _g_nid;
+    return AVL_Count((wnodes->trees)[0]);
+    //return _g_nid;
 }
 
 void addr2str(char *buf, WirelessNode_t *wnode)

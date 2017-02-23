@@ -3,8 +3,8 @@ CC=gcc
 CFLAGS=-Wall -Wextra -g3
 LFLAGS=
 
-OBJS=avl.o chrom.o conn.o main.o wnode.o
-DEPS=avl.h chrom.h conn.h wnode.h
+OBJS=avl.o chrom.o conn.o main.o wnode.o population.o
+DEPS=avl.h chrom.h conn.h wnode.h population.h
 LIBS=
 
 BIN=ga
