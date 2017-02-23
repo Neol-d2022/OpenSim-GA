@@ -73,7 +73,7 @@ double fitness_score(Chromo_t *c, Conns_t *conns, WirelessNodes_t *wnodes, unsig
         return 0.0;
     for (i = 0; i < n; i += 1)
     {
-        r += fitness_pathScore(c, conns, wnodes, i, nTransmissionTimes);
+        r = fitness_pathScore(c, conns, wnodes, i, nTransmissionTimes);
         if (r == -1.0)
             return -1.0;
         else
