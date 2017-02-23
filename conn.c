@@ -74,7 +74,7 @@ int conn_setPdr(Conns_t *conns, WirelessNodes_t *wnodes, unsigned char *addr1, u
     return 0;
 }
 
-double conn_getPdr(Conns_t *conns, WirelessNodes_t *wnodes, unsigned int id1, unsigned int id2)
+double conn_getPdr(Conns_t *conns, unsigned int id1, unsigned int id2)
 {
     Conn_t c, *res;
     unsigned int t;

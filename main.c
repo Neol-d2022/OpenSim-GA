@@ -10,7 +10,7 @@ int main(int argc, char **argv)
     char buf[64];
     FILE *nodeFile;
     WirelessNodes_t wnodes;
-    WirelessNode_t key, nodeNew;
+    WirelessNode_t nodeNew;
     Chromo_t ch;
     Conns_t conns;
     unsigned int maxRetransmitTimes = 4; //首次嘗試 + 重傳3次
@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         {
             j = (unsigned int)(rand() % n);
             k = 0;
-            while (conn_getPdr(&conns, &wnodes, i, j) == 0.0 || i == j)
+            while (conn_getPdr(&conns, i, j) == 0.0 || i == j)
             {
                 j = (j + 1) % n;
                 k += 1;

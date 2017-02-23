@@ -47,7 +47,7 @@ static double _recursive_pathScore(Chromo_t *c, Conns_t *conns, WirelessNodes_t 
         abort();
     }
 
-    pdr = conn_getPdr(conns, wnodes, wn1->nid, wn2->nid);
+    pdr = conn_getPdr(conns, wn1->nid, wn2->nid);
     return reliability(pdr, nTransmissionTimes) * _recursive_pathScore(c, conns, wnodes, loop, (c->p)[index], nTransmissionTimes, level + 1);
 }
 
