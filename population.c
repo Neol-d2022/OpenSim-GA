@@ -93,19 +93,23 @@ void population_nextGen(population_t *p, population_t *childGen, WirelessNodes_t
     scored_chrom_t *a, *b, *sch;
     unsigned int i, j, k, l, m, up, backup, n = childGen->size, wn = wnode_getNodesCount(wnodes);
 
-    for(i = 0; i < n; i += 1) {
+    for (i = 0; i < n; i += 1)
+    {
         selector_roulette(p, &a, &b);
-        if(a == 0 || b == 0) {
+        if (a == 0 || b == 0)
+        {
             fprintf(stderr, "[ERROR] population_nextGen, parent null\n");
             return;
         }
         ch = crossover(a, b);
         up = ((rand() % 0xFF) << 24) + ((rand() % 0xFF) << 16) + ((rand() % 0xFF) << 8) + ((rand() % 0xFF) << 0);
-        if((up % 1000000) / 1000000.0 <= mutateRate) {
+        if ((up % 1000000) / 1000000.0 <= mutateRate)
+        {
             l = (unsigned int)(rand() % wn);
             m = 0;
             backup = (ch->p)[l];
-            do {
+            do
+            {
                 j = (unsigned int)(rand() % wn);
                 k = 0;
                 while (conn_getPdr(conns, l, j) == 0.0 || l == j)
@@ -115,12 +119,13 @@ void population_nextGen(population_t *p, population_t *childGen, WirelessNodes_t
                     if (k >= wn)
                         break;
                 }
-                if(k < wn)
+                if (k < wn)
                     (ch->p)[l] = j;
                 m += 1;
-                if(m >= wn) break;
-            } while(fitness_score(ch, conns, wnodes, maxRetransmitTimes) <= 0.0);
-            if(m >= wn)
+                if (m >= wn)
+                    break;
+            } while (fitness_score(ch, conns, wnodes, maxRetransmitTimes) <= 0.0);
+            if (m >= wn)
                 (ch->p)[l] = backup;
         }
         //printChrom(ch);
@@ -133,13 +138,18 @@ void population_nextGen(population_t *p, population_t *childGen, WirelessNodes_t
     }
 }
 
+unsigned int population_size(population_t *population)
+{
+    return AVL_Count(population->s_chroms);
+}
+
 static void _traveserSum(void *ptr, void *param)
 {
     scored_chrom_t *a;
     double *d = (double *)param;
 
     a = (scored_chrom_t *)ptr;
-    if(a->score > 0.0)
+    if (a->score > 0.0)
         *d += a->score;
 }
 
@@ -160,13 +170,14 @@ double population_maxScore(population_t *population)
 {
     NODE *n;
 
-    if(AVL_Count(population->s_chroms) == 0) return 0.0;
+    if (AVL_Count(population->s_chroms) == 0)
+        return 0.0;
 
     n = population->s_chroms->root;
-    while(n->right)
-        n = n -> right;
-    
-    return ((scored_chrom_t*)(n->dataPtr))->score;
+    while (n->right)
+        n = n->right;
+
+    return ((scored_chrom_t *)(n->dataPtr))->score;
 }
 
 typedef struct
@@ -185,7 +196,8 @@ static void _traveserP(void *ptr, void *param)
     //printf("[DEBUG] s = %lf, p = %lf\n", a->score, d->p);
     if (a->score > 0.0)
     {
-        if(d->selected == 0) {
+        if (d->selected == 0)
+        {
             if (a->score >= d->p)
             {
                 d->p = 0.0;
