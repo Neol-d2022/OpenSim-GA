@@ -11,6 +11,7 @@ typedef struct
 
 typedef struct
 {
+    double scoreSum;
     AVL_TREE *s_chroms;
     unsigned int size;
 } population_t;

@@ -34,6 +34,7 @@ void population_init(population_t *population, unsigned int size)
 {
     population->s_chroms = AVL_Create(__cmp_f, __releaser);
     population->size = size;
+    population->scoreSum = 0.0;
 }
 
 void population_destroy(population_t *population)
@@ -43,7 +44,11 @@ void population_destroy(population_t *population)
 
 int population_addChrom(population_t *population, scored_chrom_t *sch)
 {
-    return AVL_Insert(population->s_chroms, sch);
+    int r = AVL_Insert(population->s_chroms, sch);
+
+    if (r)
+        population->scoreSum += sch->score;
+    return r;
 }
 
 void population_firstGen(population_t *population, WirelessNodes_t *wnodes, Conns_t *conns, unsigned int maxRetransmitTimes)
@@ -133,6 +138,13 @@ void population_nextGen(population_t *p, population_t *childGen, WirelessNodes_t
 
         sch->chrom = ch;
         sch->score = fitness_score(ch, conns, wnodes, maxRetransmitTimes);
+        if (sch->score < a->score || sch->score < b->score)
+        {
+            i -= 1;
+            free(ch);
+            free(sch);
+            continue;
+        }
 
         population_addChrom(childGen, sch);
     }
@@ -217,7 +229,7 @@ scored_chrom_t *population_rouletteSelect(population_t *population, double p)
     rouletteS_t w;
 
     memset(&w, 0, sizeof(w));
-    w.p = p;
+    w.p = p * population->scoreSum;
     AVL_Traverse(population->s_chroms, &w, _traveserP);
 
     return w.out;
