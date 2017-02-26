@@ -5,7 +5,7 @@ LFLAGS=
 
 OBJS=avl.o chrom.o conn.o main.o wnode.o population.o selector.o
 DEPS=avl.h chrom.h conn.h wnode.h population.h selector.h
-LIBS=
+LIBS=-lm
 
 BIN=ga
 
