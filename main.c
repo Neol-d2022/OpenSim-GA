@@ -15,6 +15,7 @@ int main(int argc, char **argv)
     population_t pop, child;
     double thres = 0.918621;
     unsigned int maxRetransmitTimes = 4; //首次嘗試 + 重傳3次
+    unsigned int noImprovementThres = 64, c;
     unsigned int popSize = 1000;
 
     if (argc != 3)
@@ -68,17 +69,25 @@ int main(int argc, char **argv)
     population_init(&pop, popSize);
     population_firstGen(&pop, &wnodes, &conns, maxRetransmitTimes);
     printf("avg = %lf, max = %lf\n", population_avgScore(&pop), population_maxScore(&pop));
+    c = 0;
     while (population_maxScore(&pop) < thres)
     {
         population_init(&child, popSize);
         population_nextGen(&pop, &child, &wnodes, &conns, maxRetransmitTimes);
-        //if (population_maxScore(&pop) < population_maxScore(&child))
-        //{
+        if (population_avgScore(&pop) < population_avgScore(&child))
+        {
             population_destroy(&pop);
             memcpy(&pop, &child, sizeof(pop));
-        //}
-        //else
-        //    population_destroy(&child);
+            c = 0;
+        }
+        else
+        {
+            population_destroy(&child);
+            c += 1;
+            if (c >= noImprovementThres)
+                break;
+        }
+
         printf("avg = %lf, max = %lf\n", population_avgScore(&pop), population_maxScore(&pop));
     }
 
