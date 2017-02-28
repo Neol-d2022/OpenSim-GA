@@ -88,9 +88,17 @@ void printChrom(Chromo_t *a)
     unsigned int j;
 
     printf("Chrom> ");
-    for (j = 0; j < a->length; j += 1)
+    if (a)
     {
-        printf("%u ", (a->p)[j]);
+        for (j = 0; j < a->length; j += 1)
+        {
+            printf("%u ", (a->p)[j]);
+        }
     }
+    else
+    {
+        printf("(NULL)");
+    }
+
     printf("\n");
 }
