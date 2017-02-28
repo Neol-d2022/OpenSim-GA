@@ -59,3 +59,19 @@ int file2conns(const char *filename, WirelessNodes_t *wnodes, Conns_t *conns)
 
     return 0;
 }
+
+void input_getConfig(SimData_t *SData)
+{
+    // Default values
+    double thres = 0.918621;
+    unsigned int maxRetransmitTimes = 4; //首次嘗試 + 重傳3次
+    unsigned int noImprovementThres = 64;
+    unsigned int popSize = 1000;
+
+    SData->thres = thres;
+    SData->popSize = popSize;
+    SData->maxRetransmitTimes = maxRetransmitTimes;
+    SData->noImprovementThres = noImprovementThres;
+
+    return;
+}

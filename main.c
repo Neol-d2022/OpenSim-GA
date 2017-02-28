@@ -31,11 +31,7 @@ int main(int argc, char **argv)
     SimData_t SData;
     WirelessNodes_t wnodes;
     Conns_t conns;
-    double thres = 0.918621;
     population_t *pop;
-    unsigned int maxRetransmitTimes = 4; //首次嘗試 + 重傳3次
-    unsigned int noImprovementThres = 64;
-    unsigned int popSize = 1000;
 
     if (argc != 3)
     {
@@ -49,13 +45,9 @@ int main(int argc, char **argv)
     handleReadError(argv[1], file2wnodes(argv[1], &wnodes));
     handleReadError(argv[2], file2conns(argv[2], &wnodes, &conns));
 
-    SData.thres = thres;
     SData.wnodes = &wnodes;
     SData.conns = &conns;
-    SData.popSize = popSize;
-    SData.maxRetransmitTimes = maxRetransmitTimes;
-    SData.noImprovementThres = noImprovementThres;
-    SData.popSize = popSize;
+    input_getConfig(&SData);
     simulation_start(&SData, 1);
 
     pop = SData.result;
