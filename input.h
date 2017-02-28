@@ -7,6 +7,6 @@
 int file2wnodes(const char *filename, WirelessNodes_t *wnodes);
 int file2conns(const char *filename, WirelessNodes_t *wnodes, Conns_t *conns);
 
-void input_getConfig(SimData_t *SData)
+int input_getConfig(SimData_t *SData, const char *filename);
 
 #endif

@@ -32,11 +32,16 @@ int main(int argc, char **argv)
     WirelessNodes_t wnodes;
     Conns_t conns;
     population_t *pop;
+    const char *configFilename = 0;
 
-    if (argc != 3)
+    if (argc < 3)
     {
         fprintf(stderr, "%s [motes.bin] [conns.bin]\n", argv[0]);
         return 1;
+    }
+    else
+    {
+        configFilename = argv[3];
     }
 
     wnode_init(&wnodes);
@@ -47,7 +52,7 @@ int main(int argc, char **argv)
 
     SData.wnodes = &wnodes;
     SData.conns = &conns;
-    input_getConfig(&SData);
+    input_getConfig(&SData, configFilename);
     simulation_start(&SData, 1);
 
     pop = SData.result;

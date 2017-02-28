@@ -60,18 +60,39 @@ int file2conns(const char *filename, WirelessNodes_t *wnodes, Conns_t *conns)
     return 0;
 }
 
-void input_getConfig(SimData_t *SData)
+int input_getConfig(SimData_t *SData, const char *filename)
 {
+    char buf[64];
+    FILE *f;
+    int r = 0;
+
     // Default values
     double thres = 0.918621;
     unsigned int maxRetransmitTimes = 4; //首次嘗試 + 重傳3次
     unsigned int noImprovementThres = 64;
     unsigned int popSize = 1000;
 
+    if (filename != 0)
+    {
+        f = fopen(filename, "r");
+        if (!f)
+            r = 1;
+        else
+        {
+            fgets(buf, sizeof(buf), f);
+            r = sscanf(buf, "%u,%u,%u,%lf", &popSize, &maxRetransmitTimes, &noImprovementThres, &thres);
+            if (r == 4)
+                r = 0;
+            else
+                r = 2;
+            fclose(f);
+        }
+    }
+
     SData->thres = thres;
     SData->popSize = popSize;
     SData->maxRetransmitTimes = maxRetransmitTimes;
     SData->noImprovementThres = noImprovementThres;
 
-    return;
+    return r;
 }
