@@ -178,18 +178,38 @@ double population_avgScore(population_t *population)
     return population_sumScore(population) / AVL_Count(population->s_chroms);
 }
 
-double population_maxScore(population_t *population)
+static scored_chrom_t *_getMaxScored(population_t *population)
 {
     NODE *n;
 
     if (AVL_Count(population->s_chroms) == 0)
-        return 0.0;
+        return 0;
 
     n = population->s_chroms->root;
     while (n->right)
         n = n->right;
 
-    return ((scored_chrom_t *)(n->dataPtr))->score;
+    return n->dataPtr;
+}
+
+double population_maxScore(population_t *population)
+{
+    scored_chrom_t *n = _getMaxScored(population);
+
+    if (n)
+        return n->score;
+    else
+        return -1.0;
+}
+
+Chromo_t *population_maxScoreChrom(population_t *population)
+{
+    scored_chrom_t *n = _getMaxScored(population);
+
+    if (n)
+        return n->chrom;
+    else
+        return 0;
 }
 
 typedef struct

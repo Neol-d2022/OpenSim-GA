@@ -91,6 +91,8 @@ int main(int argc, char **argv)
         printf("avg = %lf, max = %lf\n", population_avgScore(&pop), population_maxScore(&pop));
     }
 
+    printChrom(population_maxScoreChrom(&pop));
+
     population_destroy(&pop);
     conn_destroy(&conns);
     wnode_init(&wnodes);

@@ -26,6 +26,7 @@ unsigned int population_size(population_t *population);
 double population_sumScore(population_t *population);
 double population_avgScore(population_t *population);
 double population_maxScore(population_t *population);
+Chromo_t *population_maxScoreChrom(population_t *population);
 
 scored_chrom_t *population_rouletteSelect(population_t *population, double p);
 
