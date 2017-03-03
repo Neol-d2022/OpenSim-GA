@@ -53,7 +53,7 @@ int main(int argc, char **argv)
     SData.wnodes = &wnodes;
     SData.conns = &conns;
     input_getConfig(&SData, configFilename);
-    simulation_start(&SData, 1);
+    simulation_start(&SData, 0);
 
     pop = SData.result;
     printChrom(population_maxScoreChrom(pop));

@@ -1,6 +1,6 @@
 CC=gcc
 
-CFLAGS=-Wall -Wextra -g3
+CFLAGS=-Wall -Wextra -Ofast
 LFLAGS=
 
 OBJS=avl.o chrom.o conn.o input.o main.o wnode.o population.o selector.o simulation.o
