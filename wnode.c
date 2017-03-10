@@ -54,9 +54,6 @@ unsigned int wnode_addNode(const WirelessNode_t *wnode, WirelessNodes_t *wnodes)
     ptr = wnode_findByAddr(wnode->addr, wnodes);
     if (ptr)
         return 0;
-    ptr = wnode_findByNid(wnode->nid, wnodes);
-    if (ptr)
-        return 0;
 
     ptr = malloc(sizeof(*ptr));
     memcpy(ptr, wnode, sizeof(*ptr));
